@@ -1,0 +1,7 @@
+coverage
+tmp
+node_modules
+jest-report
+.nyc_output
+npm-debug.log
+yarn-error.log

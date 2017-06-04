@@ -1,0 +1,17 @@
+{
+  "name": "watch-nba",
+  "version": "0.1.0",
+  "description": "Watch NBA game in your terminal",
+  "main": "src/index.js",
+  "bin": "bin/watch-nba",
+  "keywords": [
+    "nba",
+    "play-by-play"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "delay": "^2.0.0",
+    "minimist": "^1.2.0",
+    "nightmare": "^2.10.0"
+  }
+}
