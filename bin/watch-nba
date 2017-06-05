@@ -5,7 +5,7 @@ const { watchGame } = require('../src');
 
 const [date, matchup]= argv._;
 
-watchGame(date, matchup)
+watchGame(date, matchup, 5000)
   .then(() => {
     // TODO
     console.log('game is finished...');
