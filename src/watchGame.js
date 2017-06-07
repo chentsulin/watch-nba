@@ -1,6 +1,9 @@
+const path = require('path');
+
 const Nightmare = require('nightmare');
 const blessed = require('blessed');
 const delay = require('delay');
+const leftPad = require('left-pad');
 
 function fetchPlayByPlay(gameUrlCode) {
   const nightmare = Nightmare();
@@ -72,7 +75,7 @@ function getRenderContent(plays, info) {
 }
 
 module.exports = async function watchGame(gameUrlCode, duration = 30000) {
-  gameUrlCode = '20170601/CLEGSW'; // Test..
+  // gameUrlCode = '20170601/CLEGSW'; // Test..
   // Create a screen object.
   const screen = blessed.screen({
     smartCSR: true,
@@ -87,6 +90,51 @@ module.exports = async function watchGame(gameUrlCode, duration = 30000) {
   // Append our box to the screen.
   screen.append(awayBox);
   screen.append(homeBox);
+
+  // Create a box perfectly centered horizontally and vertically.
+  const teamBox = blessed.bigtext({
+    font: __dirname + '/../fonts/ter-u12n.json',
+    fontBold: __dirname + '/../fonts/ter-u12b.json',
+    top: 0,
+    right: 0,
+    width: '35%',
+    height: '40%',
+    tags: true,
+    border: {
+      type: 'line',
+    },
+    style: {
+      fg: 'white',
+      bg: 'black',
+      border: {
+        fg: '#f0f0f0',
+      },
+    },
+  });
+
+  screen.append(teamBox);
+
+  const scoreBox = blessed.bigtext({
+    font: __dirname + '/../fonts/ter-u12n.json',
+    fontBold: __dirname + '/../fonts/ter-u12b.json',
+    top: '40%',
+    right: 0,
+    width: '35%',
+    height: '40%',
+    tags: true,
+    border: {
+      type: 'line',
+    },
+    style: {
+      fg: 'white',
+      bg: 'black',
+      border: {
+        fg: '#f0f0f0',
+      },
+    },
+  });
+
+  screen.append(scoreBox);
 
   // Quit on Escape, q, or Control-C.
   screen.key(['escape', 'q', 'C-c'], () => {
@@ -105,9 +153,11 @@ module.exports = async function watchGame(gameUrlCode, duration = 30000) {
     awayBox.setContent(getRenderContent(plays, away));
     homeBox.setContent(getRenderContent(plays, home));
 
+    teamBox.setContent(`${away.team} ${home.team}`);
+    scoreBox.setContent(`${leftPad(away.score, 3)}-${leftPad(home.score, 3)}`);
+
     screen.render();
 
-    playsCount = plays.length;
     await delay(duration);
   }
 };
