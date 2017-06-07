@@ -10,7 +10,7 @@ $ npm install -g watch-nba
 Or using yarn:
 
 ```sh
-$ yarn add global watch-nba
+$ yarn global add watch-nba
 ```
 
 ## Usage
