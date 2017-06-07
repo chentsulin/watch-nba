@@ -1,13 +1,16 @@
 #!/usr/bin/env node
 
-const argv = require('minimist')(process.argv.slice(2));
+const { argv } = require('yargs');
+const axios = require('axios');
+const isToday = require('date-fns/is_today');
+const isTomorrow = require('date-fns/is_tomorrow');
+
 const { watchGame } = require('../src');
 
-const [date, matchup]= argv._;
-
-watchGame(date, matchup, 5000)
-  .then(() => {
-    // TODO
-    console.log('game is finished...');
-  })
+axios
+  .get('http://data.nba.net/data/10s/prod/v1/2016/schedule.json')
+  .then(({ data }) =>
+    data.league.standard.filter(game => isTomorrow(new Date(game.startTimeUTC)))
+  )
+  .then(([game]) => watchGame(game.gameUrlCode, 5000))
   .catch(console.error);

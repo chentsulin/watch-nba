@@ -10,8 +10,11 @@
   ],
   "license": "MIT",
   "dependencies": {
+    "axios": "^0.16.2",
+    "blessed": "^0.1.81",
+    "date-fns": "^1.28.5",
     "delay": "^2.0.0",
-    "minimist": "^1.2.0",
-    "nightmare": "^2.10.0"
+    "nightmare": "^2.10.0",
+    "yargs": "^8.0.1"
   }
 }
