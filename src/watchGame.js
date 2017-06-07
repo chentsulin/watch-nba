@@ -10,10 +10,31 @@ function fetchPlayByPlay(gameUrlCode) {
     .click('.play-by-play')
     .click('.filter-buttons .all')
     .evaluate(() => {
+      const away = {
+        team: document.querySelector('.game-away').getAttribute('data-id'),
+        score: document.querySelector('.game-score .away-score').innerText,
+      };
+
+      const home = {
+        team: document.querySelector('.game-home').getAttribute('data-id'),
+        score: document.querySelector('.game-score .home-score').innerText,
+      };
+
+      const isFinal =
+        document.querySelector('.game-score .game-state').innerText === 'Final';
+
       const $infos = document.querySelectorAll(
         '.playbyplay-content .items .player-right'
       );
-      return [].slice.apply($infos).map($info => $info.innerText);
+
+      const plays = [].slice.apply($infos).map($info => $info.innerText);
+
+      return {
+        away,
+        home,
+        plays,
+        isFinal,
+      };
     })
     .end();
 }
@@ -61,7 +82,7 @@ module.exports = async function watchGame(gameUrlCode, duration = 30000) {
   screen.render();
 
   while (true) {
-    const plays = await fetchPlayByPlay(gameUrlCode);
+    const { away, home, plays, isFinal } = await fetchPlayByPlay(gameUrlCode);
     box.setContent(plays.join('\n'));
     screen.render();
     playsCount = plays.length;
