@@ -10,7 +10,7 @@ const { watchGame } = require('../src');
 axios
   .get('http://data.nba.net/data/10s/prod/v1/2016/schedule.json')
   .then(({ data }) =>
-    data.league.standard.filter(game => isTomorrow(new Date(game.startTimeUTC)))
+    data.league.standard.filter(game => isToday(new Date(game.startTimeUTC)))
   )
   .then(([game]) => watchGame(game.gameUrlCode, 5000))
   .catch(console.error);

@@ -39,6 +39,38 @@ function fetchPlayByPlay(gameUrlCode) {
     .end();
 }
 
+function createBox(left) {
+  return blessed.box({
+    top: '0',
+    left,
+    width: '35%',
+    height: '100%',
+    tags: true,
+    scrollable: true,
+    scrollbar: true,
+    mouse: true,
+    border: {
+      type: 'line',
+    },
+    style: {
+      fg: 'white',
+      bg: 'black',
+      border: {
+        fg: '#f0f0f0',
+      },
+      scrollbar: {
+        bg: 'blue',
+      },
+    },
+  });
+}
+
+function getRenderContent(plays, info) {
+  return plays
+    .map(play => (play.indexOf(info.team) !== -1 ? play.trim() : ''))
+    .join('\n');
+}
+
 module.exports = async function watchGame(gameUrlCode, duration = 30000) {
   gameUrlCode = '20170601/CLEGSW'; // Test..
   // Create a screen object.
@@ -48,27 +80,13 @@ module.exports = async function watchGame(gameUrlCode, duration = 30000) {
 
   screen.title = gameUrlCode;
 
-  // Create a box perfectly centered horizontally and vertically.
-  const box = blessed.box({
-    top: 'center',
-    left: '0',
-    width: '70%',
-    height: '100%',
-    tags: true,
-    border: {
-      type: 'line',
-    },
-    style: {
-      fg: 'white',
-      bg: 'magenta',
-      border: {
-        fg: '#f0f0f0',
-      },
-    },
-  });
+  // Create two box
+  const awayBox = createBox('0');
+  const homeBox = createBox('35%');
 
   // Append our box to the screen.
-  screen.append(box);
+  screen.append(awayBox);
+  screen.append(homeBox);
 
   // Quit on Escape, q, or Control-C.
   screen.key(['escape', 'q', 'C-c'], () => {
@@ -76,15 +94,19 @@ module.exports = async function watchGame(gameUrlCode, duration = 30000) {
   });
 
   // Focus our element.
-  box.focus();
+  awayBox.focus();
 
   // Render the screen.
   screen.render();
 
   while (true) {
     const { away, home, plays, isFinal } = await fetchPlayByPlay(gameUrlCode);
-    box.setContent(plays.join('\n'));
+
+    awayBox.setContent(getRenderContent(plays, away));
+    homeBox.setContent(getRenderContent(plays, home));
+
     screen.render();
+
     playsCount = plays.length;
     await delay(duration);
   }
