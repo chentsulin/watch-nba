@@ -96,8 +96,8 @@ module.exports = async function watchGame(gameUrlCode, duration = 30000) {
     font: __dirname + '/../fonts/ter-u12n.json',
     fontBold: __dirname + '/../fonts/ter-u12b.json',
     top: 0,
-    right: 0,
-    width: '35%',
+    left: '70%',
+    width: '30%',
     height: '40%',
     tags: true,
     border: {
@@ -118,8 +118,8 @@ module.exports = async function watchGame(gameUrlCode, duration = 30000) {
     font: __dirname + '/../fonts/ter-u12n.json',
     fontBold: __dirname + '/../fonts/ter-u12b.json',
     top: '40%',
-    right: 0,
-    width: '35%',
+    left: '70%',
+    width: '30%',
     height: '40%',
     tags: true,
     border: {
