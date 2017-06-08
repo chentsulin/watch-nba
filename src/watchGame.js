@@ -137,10 +137,10 @@ module.exports = async function watchGame(gameUrlCode, duration = 30000) {
   screen.append(scoreBox);
 
   const metaBox = blessed.box({
-    top: '70%',
+    top: '80%',
     left: '70%',
     width: '30%',
-    height: '30%',
+    height: '20%',
     border: {
       type: 'line',
     },
@@ -155,7 +155,9 @@ module.exports = async function watchGame(gameUrlCode, duration = 30000) {
 
   screen.append(metaBox);
 
-  metaBox.setContent('Github Repo:\nhttps://github.com/chentsulin/watch-nba');
+  metaBox.setContent(
+    'GitHub Repo Link:\n - https://github.com/chentsulin/watch-nba'
+  );
 
   // Quit on Escape, q, or Control-C.
   screen.key(['escape', 'q', 'C-c'], () => {
