@@ -4,6 +4,7 @@ const { argv } = require('yargs');
 const axios = require('axios');
 const isToday = require('date-fns/is_today');
 const isTomorrow = require('date-fns/is_tomorrow');
+const isBefore = require('date-fns/is_before');
 
 const { watchGame } = require('../src');
 
@@ -12,5 +13,19 @@ axios
   .then(({ data }) =>
     data.league.standard.filter(game => isToday(new Date(game.startTimeUTC)))
   )
-  .then(([game]) => watchGame(game.gameUrlCode, 5000))
+  .then(games => {
+    if (games.length < 1) {
+      console.log('There is no game playing today.');
+      return;
+    }
+
+    const [game] = games;
+    if (isBefore(new Date(), new Date(game.startTimeUTC))) {
+      console.log(
+        `Game ${game.gameUrlCode} will start at ${game.startTimeUTC}.`
+      );
+    } else {
+      return watchGame(game.gameUrlCode, 5000);
+    }
+  })
   .catch(console.error);
