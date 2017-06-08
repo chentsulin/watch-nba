@@ -20,3 +20,7 @@ $ yarn global add watch-nba
 ```sh
 $ watch-nba
 ```
+
+## Suggestion
+
+- The best experience of using this CLI tool is on 13' MacBook (or above) full-screen terminal.
