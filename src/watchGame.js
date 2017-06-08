@@ -136,13 +136,31 @@ module.exports = async function watchGame(gameUrlCode, duration = 30000) {
 
   screen.append(scoreBox);
 
+  const metaBox = blessed.box({
+    top: '70%',
+    left: '70%',
+    width: '30%',
+    height: '30%',
+    border: {
+      type: 'line',
+    },
+    style: {
+      fg: 'white',
+      bg: 'black',
+      border: {
+        fg: '#f0f0f0',
+      },
+    },
+  });
+
+  screen.append(metaBox);
+
+  metaBox.setContent('Github Repo:\nhttps://github.com/chentsulin/watch-nba');
+
   // Quit on Escape, q, or Control-C.
   screen.key(['escape', 'q', 'C-c'], () => {
     return process.exit(0);
   });
-
-  // Focus our element.
-  awayBox.focus();
 
   // Render the screen.
   screen.render();
