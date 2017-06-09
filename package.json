@@ -8,6 +8,9 @@
     "nba",
     "play-by-play"
   ],
+  "engines": {
+    "node": ">=7.6.0"
+  },
   "license": "MIT",
   "dependencies": {
     "axios": "^0.16.2",
