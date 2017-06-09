@@ -69,9 +69,26 @@ function createBox(left) {
 }
 
 function getRenderContent(plays, info) {
-  return plays
-    .map(play => (play.indexOf(info.team) !== -1 ? play.trim() : ''))
-    .join('\n');
+  return (
+    plays
+      .map(play => (play.indexOf(info.team) !== -1 ? play.trim() : ''))
+      .map(play => play.replace('WATCH', ''))
+      .map(play => play.replace(`[${info.team}]`, '-'))
+      .map(play => play.replace(`[${info.team} `, '- ['))
+      /* FIXME */
+      .map(play => play.replace('Curry', '{bold}Curry{/bold}'))
+      .map(play => play.replace('Durant', '{bold}Durant{/bold}'))
+      .map(play => play.replace('Thompson', '{bold}Thompson{/bold}'))
+      .map(play => play.replace('Green', '{bold}Green{/bold}'))
+      .map(play => play.replace('Iguodala', '{bold}Iguodala{/bold}'))
+      .map(play => play.replace('James', '{bold}James{/bold}'))
+      .map(play => play.replace('Irving', '{bold}Irving{/bold}'))
+      .map(play => play.replace('Love', '{bold}Love{/bold}'))
+      .map(play => play.replace('Smith', '{bold}Smith{/bold}'))
+      .map(play => play.replace('Korver', '{bold}Korver{/bold}'))
+      /* FIXME */
+      .join('\n')
+  );
 }
 
 module.exports = async function watchGame(gameUrlCode, duration = 30000) {
@@ -97,7 +114,7 @@ module.exports = async function watchGame(gameUrlCode, duration = 30000) {
     fontBold: __dirname + '/../fonts/ter-u12b.json',
     top: 0,
     left: '70%',
-    width: '30%',
+    width: '35%',
     height: '40%',
     tags: true,
     border: {
@@ -119,7 +136,7 @@ module.exports = async function watchGame(gameUrlCode, duration = 30000) {
     fontBold: __dirname + '/../fonts/ter-u12b.json',
     top: '40%',
     left: '70%',
-    width: '30%',
+    width: '35%',
     height: '40%',
     tags: true,
     border: {
@@ -139,8 +156,8 @@ module.exports = async function watchGame(gameUrlCode, duration = 30000) {
   const metaBox = blessed.box({
     top: '80%',
     left: '70%',
-    width: '30%',
-    height: '20%',
+    width: '35%',
+    height: '22%',
     border: {
       type: 'line',
     },
@@ -156,7 +173,7 @@ module.exports = async function watchGame(gameUrlCode, duration = 30000) {
   screen.append(metaBox);
 
   metaBox.setContent(
-    'GitHub Repo Link:\n - https://github.com/chentsulin/watch-nba'
+    'GitHub Repo Link:\n- https://github.com/chentsulin/watch-nba'
   );
 
   // Quit on Escape, q, or Control-C.
@@ -170,8 +187,16 @@ module.exports = async function watchGame(gameUrlCode, duration = 30000) {
   while (true) {
     const { away, home, plays, isFinal } = await fetchPlayByPlay(gameUrlCode);
 
-    awayBox.setContent(getRenderContent(plays, away));
-    homeBox.setContent(getRenderContent(plays, home));
+    awayBox.setContent(
+      `{#F2DE31-fg}[${away.team}]\n${getRenderContent(
+        plays,
+        away
+      )}{/#F2DE31-fg}`
+    );
+
+    homeBox.setContent(
+      `{#B7543D-fg}[${home.team}]${getRenderContent(plays, home)}{/#B7543D-fg}`
+    );
 
     teamBox.setContent(`${away.team} ${home.team}`);
     scoreBox.setContent(`${leftPad(away.score, 3)}-${leftPad(home.score, 3)}`);
