@@ -2,7 +2,7 @@
 
 Watch NBA game in your terminal.
 
-![watch-nba-gif](https://user-images.githubusercontent.com/3382565/26910744-625289a6-4c3b-11e7-95d2-6f01bfb87d17.gif)
+![](https://user-images.githubusercontent.com/3382565/26973623-efd9e71a-4d49-11e7-811a-e0ac39837f41.png)
 
 ## Install
 
