@@ -1,6 +1,6 @@
 {
   "name": "watch-nba",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Watch NBA game in your terminal",
   "main": "src/index.js",
   "bin": "bin/watch-nba",
