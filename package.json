@@ -9,14 +9,16 @@
     "play-by-play"
   ],
   "engines": {
-    "node": ">=7.6.0"
+    "node": ">=6"
   },
   "license": "MIT",
   "dependencies": {
+    "async-to-gen": "^1.3.3",
     "axios": "^0.16.2",
     "blessed": "^0.1.81",
     "date-fns": "^1.28.5",
     "delay": "^2.0.0",
+    "is-async-supported": "^1.2.0",
     "left-pad": "^1.1.3",
     "nightmare": "^2.10.0",
     "ttystudio": "^0.0.16",

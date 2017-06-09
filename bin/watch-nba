@@ -5,6 +5,11 @@ const axios = require('axios');
 const isToday = require('date-fns/is_today');
 const isTomorrow = require('date-fns/is_tomorrow');
 const isBefore = require('date-fns/is_before');
+const isAsyncSupported = require('is-async-supported');
+
+if (!isAsyncSupported()) {
+  require('async-to-gen/register');
+}
 
 const { watchGame } = require('../src');
 
