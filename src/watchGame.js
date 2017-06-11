@@ -203,6 +203,10 @@ module.exports = async function watchGame(gameUrlCode, duration = 30000) {
 
     screen.render();
 
+    if (isFinal) {
+      break;
+    }
+
     await delay(duration);
   }
 };
