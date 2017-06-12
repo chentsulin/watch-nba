@@ -3,7 +3,6 @@
 const { argv } = require('yargs');
 const axios = require('axios');
 const isToday = require('date-fns/is_today');
-const isTomorrow = require('date-fns/is_tomorrow');
 const isBefore = require('date-fns/is_before');
 const isAsyncSupported = require('is-async-supported');
 
@@ -33,4 +32,9 @@ axios
       return watchGame(game.gameUrlCode, 5000);
     }
   })
-  .catch(console.error);
+  .catch(err => {
+    if (err.message === "Cannot set property '0' of undefined") {
+      console.log('Please keep enough terminal width to watch NBA!');
+      process.exit(1);
+    }
+  });

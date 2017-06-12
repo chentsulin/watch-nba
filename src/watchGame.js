@@ -5,6 +5,8 @@ const blessed = require('blessed');
 const delay = require('delay');
 const leftPad = require('left-pad');
 
+const mapTeamToColor = require('./mapTeamToColor');
+
 function fetchPlayByPlay(gameUrlCode) {
   const nightmare = Nightmare();
 
@@ -158,6 +160,7 @@ module.exports = async function watchGame(gameUrlCode, duration = 30000) {
     left: '70%',
     width: '35%',
     height: '22%',
+    tags: true,
     border: {
       type: 'line',
     },
@@ -173,7 +176,7 @@ module.exports = async function watchGame(gameUrlCode, duration = 30000) {
   screen.append(metaBox);
 
   metaBox.setContent(
-    'GitHub Repo Link:\n- https://github.com/chentsulin/watch-nba'
+    'GitHub Repo Link:\n- {underline}https://github.com/chentsulin/watch-nba{/underline}'
   );
 
   // Quit on Escape, q, or Control-C.
@@ -188,14 +191,17 @@ module.exports = async function watchGame(gameUrlCode, duration = 30000) {
     const { away, home, plays, isFinal } = await fetchPlayByPlay(gameUrlCode);
 
     awayBox.setContent(
-      `{#F2DE31-fg}[${away.team}]\n${getRenderContent(
+      `{${mapTeamToColor(away.team)}-fg}[${away.team}]\n${getRenderContent(
         plays,
         away
-      )}{/#F2DE31-fg}`
+      )}{/${mapTeamToColor(away.team)}-fg}`
     );
 
     homeBox.setContent(
-      `{#B7543D-fg}[${home.team}]${getRenderContent(plays, home)}{/#B7543D-fg}`
+      `{${mapTeamToColor(home.team)}-fg}[${home.team}]${getRenderContent(
+        plays,
+        home
+      )}{/${mapTeamToColor(home.team)}-fg}`
     );
 
     teamBox.setContent(`${away.team} ${home.team}`);
