@@ -13,7 +13,7 @@ if (!isAsyncSupported()) {
 const { watchGame } = require('../src');
 
 axios
-  .get('http://data.nba.net/data/10s/prod/v1/2016/schedule.json')
+  .get('http://data.nba.net/data/10s/prod/v1/2017/schedule.json')
   .then(({ data }) =>
     data.league.standard.filter(game => isToday(new Date(game.startTimeUTC)))
   )
